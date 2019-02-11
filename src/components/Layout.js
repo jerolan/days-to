@@ -1,5 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 
 import ThemeProvider from './ThemeProvider';
 
@@ -29,7 +31,9 @@ export default function App(props) {
       <main
         style={{ display: 'flex', height: '100vh', maxWidth: '100vw' }}
       >
-        <ThemeProvider>{props.children}</ThemeProvider>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <ThemeProvider>{props.children}</ThemeProvider>
+        </MuiPickersUtilsProvider>
       </main>
     </div>
   );

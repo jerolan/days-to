@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import Layout from '../Layout';
 import View from '../View';
 import Col from '../Col';
-import Button from '../Button';
+import DatePicker from '../DatePicker';
 
 import { daysBetween } from '../../formatters';
 
@@ -12,28 +12,32 @@ export default function Home() {
   const inputRef = useRef(null);
   const [date, setDate] = useState(new Date());
 
-  function handleDateChange(event) {
-    const value = event.target.value;
-    if (value !== '') return setDate(new Date(event.target.value));
+  function handleDateChange(date) {
+    if (!date) return setDate(new Date());
+    return setDate(date.toDate());
+  }
+
+  function triggerDatePicker(event) {
+    return inputRef.current.open(event);
   }
 
   return (
     <Layout>
       <View center="xs" middle="xs">
         <Col xs={12}>
-          <p className="h1">{`${daysBetween(today, date)} Days`}</p>
-        </Col>
-        <Col xs={12}>
-          <Button>
-            <input
-              ref={inputRef}
-              onChange={handleDateChange}
-              value={date}
-              type="date"
-            />
-          </Button>
+          <p onClick={triggerDatePicker} className="h1">{`${daysBetween(
+            today,
+            date
+          )} Days`}</p>
         </Col>
       </View>
+      <DatePicker
+        clearable
+        style={{ display: 'none' }}
+        datePickerRef={inputRef}
+        value={date}
+        onChange={handleDateChange}
+      />
     </Layout>
   );
 }
