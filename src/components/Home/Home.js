@@ -5,7 +5,7 @@ import View from '../View';
 import Col from '../Col';
 import DatePicker from '../DatePicker';
 
-import { daysBetween } from '../../formatters';
+import * as formatters from '../../formatters';
 
 export default function Home() {
   const today = new Date();
@@ -25,10 +25,10 @@ export default function Home() {
     <Layout>
       <View center="xs" middle="xs">
         <Col xs={12}>
-          <p onClick={triggerDatePicker} className="h1">{`${daysBetween(
-            today,
-            date
-          )} Days`}</p>
+          <p
+            onClick={triggerDatePicker}
+            className="h1"
+          >{`${formatters.daysBetween(today, date)} Days`}</p>
         </Col>
       </View>
       <DatePicker

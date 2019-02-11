@@ -11,7 +11,7 @@ export default function App(props) {
       <Head>
         <title>{props.title}</title>
         <meta name="description" content={props.description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta property="og:title" content={props.title} />
         <meta property="og:description" content={props.description} />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" />
