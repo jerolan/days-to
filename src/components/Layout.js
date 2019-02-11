@@ -12,6 +12,7 @@ export default function App(props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content={props.title} />
         <meta property="og:description" content={props.description} />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" />
         <link href="/static/reset.css" rel="stylesheet" />
         <link href="/static/index.css" rel="stylesheet" />
         {/*
@@ -25,10 +26,10 @@ export default function App(props) {
           <meta name='mobile-web-app-capable' content='yes' />
         */}
       </Head>
-      <main>
-        <ThemeProvider>
-          {props.children}
-        </ThemeProvider>
+      <main
+        style={{ display: 'flex', height: '100vh', maxWidth: '100vw' }}
+      >
+        <ThemeProvider>{props.children}</ThemeProvider>
       </main>
     </div>
   );

@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 import Layout from '../Layout';
+import View from '../View';
+import Col from '../Col';
+import Button from '../Button';
+
+import { daysBetween } from '../../formatters';
 
 export default function Home() {
+  const today = new Date();
+  const inputRef = useRef(null);
+  const [date, setDate] = useState(new Date());
+
+  function handleDateChange(event) {
+    const value = event.target.value;
+    if (value !== '') return setDate(new Date(event.target.value));
+  }
+
   return (
     <Layout>
-      <div className="hero">
-        <h1 className="title">Welcome to Next!</h1>
-        <p className="description">
-          To get started, edit <code>pages/index.js</code> and save to reload.
-        </p>
-      </div>
+      <View center="xs" middle="xs">
+        <Col xs={12}>
+          <p className="h1">{`${daysBetween(today, date)} Days`}</p>
+        </Col>
+        <Col xs={12}>
+          <Button>
+            <input
+              ref={inputRef}
+              onChange={handleDateChange}
+              value={date}
+              type="date"
+            />
+          </Button>
+        </Col>
+      </View>
     </Layout>
   );
 }
