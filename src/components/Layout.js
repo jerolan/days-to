@@ -1,16 +1,19 @@
-import React from 'react'
-import Head from 'next/head'
+import React from 'react';
+import Head from 'next/head';
 
-export default function App ({ title, description, image, children }) {
+import ThemeProvider from './ThemeProvider';
+
+export default function App(props) {
   return (
     <div>
       <Head>
-        <title>{title}</title>
-        <meta name='description' content={description} />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-        <meta property='og:title' content={title} />
-        <meta property='og:description' content={description} />
-        <link href='/static/reset.css' rel='stylesheet' />
+        <title>{props.title}</title>
+        <meta name="description" content={props.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content={props.title} />
+        <meta property="og:description" content={props.description} />
+        <link href="/static/reset.css" rel="stylesheet" />
+        <link href="/static/index.css" rel="stylesheet" />
         {/*
           <link rel='manifest' href='/static/manifest.json' />
           <meta name='theme-color' content='#08213D' />
@@ -22,7 +25,11 @@ export default function App ({ title, description, image, children }) {
           <meta name='mobile-web-app-capable' content='yes' />
         */}
       </Head>
-      <main>{children}</main>
+      <main>
+        <ThemeProvider>
+          {props.children}
+        </ThemeProvider>
+      </main>
     </div>
-  )
+  );
 }

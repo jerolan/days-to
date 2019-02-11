@@ -1,4 +1,4 @@
-import Main from './components/Main'
+import components from './components'
 
 export const routesDic = {
   MAIN: '/'
@@ -7,6 +7,6 @@ export const routesDic = {
 export default {
   main: {
     path: routesDic.MAIN,
-    component: Main
+    component: components.Home
   }
 }

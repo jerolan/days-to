@@ -1,2 +1,2 @@
-import routes from '../src/router'
-export default routes.main.component
+import router from '../src'
+export default router.main.component
