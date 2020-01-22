@@ -9,6 +9,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "animate.css": "^3.7.2",
+    "classnames": "^2.2.6",
+    "formik": "^2.1.2",
     "next": "^9.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -16,6 +19,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.0.5",
+    "@types/classnames": "^2.2.9",
     "@types/node": "^13.1.8",
     "@types/react": "^16.9.18",
     "autoprefixer": "^9.7.4",

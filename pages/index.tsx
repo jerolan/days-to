@@ -1,39 +1,34 @@
 import React, { useState } from "react";
 
+import { DateEvent } from "../components/Event";
 import MainLayout from "../components/MainLayout";
 import EventList from "../components/EventList";
-
-const intialEvents = [
-  {
-    id: "0",
-    title: "some title",
-    date: new Date(2020, 1, 4)
-  },
-  {
-    id: "1",
-    title: "some title 2",
-    date: new Date(2020, 0, 31)
-  }
-];
+import EventForm from "../components/EventForm";
 
 export default function Home() {
-  const [events, setEvents] = useState(intialEvents);
+  const [events, setEvents] = useState<DateEvent[]>([]);
+  const [modal, setModal] = useState(false);
 
-  function handleClick() {
-    const [someEvent] = events;
-    return setEvents([
-      ...events,
-      {
-        id: events.length.toString(),
-        ...someEvent
-      }
-    ]);
+  function handleEventSubmit(event: DateEvent) {
+    events.push(event);
+    setEvents(events);
+  }
+
+  function handleToggleModal() {
+    setModal(!modal);
   }
 
   return (
     <MainLayout>
-      <div onClick={handleClick}>agregar</div>
+      <div onClick={handleToggleModal} className="py-1">
+        <p className="font-medium text-right cursor-pointer">Agregar</p>
+      </div>
       <EventList events={events} />
+      <EventForm
+        show={modal}
+        onToggleModal={handleToggleModal}
+        onEventSubmit={handleEventSubmit}
+      />
     </MainLayout>
   );
 }

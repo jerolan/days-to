@@ -1,10 +1,12 @@
 import daysBetweenTwoDates from "../utils/daysBetweenTwoDates";
 
-export interface EventProps {
+export interface DateEvent {
   id: string;
   title: string;
   date: Date;
 }
+
+export interface EventProps extends DateEvent {}
 
 const Event: React.FunctionComponent<EventProps> = ({ title, date }) => {
   const today = new Date();
