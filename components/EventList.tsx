@@ -1,10 +1,11 @@
 import React from "react";
 
-import Event, { EventProps } from "./Event";
+import DateEvent from "../dateEvents/event";
+import Event from "./Event";
 
-export interface EventListProps {
-  events: EventProps[];
-}
+type EventListProps = {
+  events: DateEvent[];
+};
 
 const EventList: React.FunctionComponent<EventListProps> = ({ events }) => {
   return (
@@ -13,7 +14,6 @@ const EventList: React.FunctionComponent<EventListProps> = ({ events }) => {
         <div className="mb-3">
           <Event
             key={event.id}
-            id={event.id}
             title={event.title}
             date={event.date}
           />

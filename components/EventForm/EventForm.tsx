@@ -2,21 +2,21 @@ import React from "react";
 import classnames from "classnames";
 import { useFormik } from "formik";
 
-import { DateEvent } from "../Event";
+import DateEvent from "../../dateEvents/event";
 import Field from "./Field";
 import Submit from "./Submit";
-import EventFormWrapper from "./EventFormWrapper";
+import ToolBar, { ToolBarItem } from "../ToolBar";
 
-export interface EventFormProps {
+type EventFormProps = {
   onToggleModal: () => void;
   onEventSubmit: (event: DateEvent) => void;
   show: boolean;
-}
+};
 
-interface FormValues {
+type EventFormValues = {
   title: string;
   date: Date;
-}
+};
 
 const EventForm: React.FunctionComponent<EventFormProps> = ({
   show,
@@ -28,50 +28,59 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       title: "",
       date: new Date()
     },
-    onSubmit: (values: FormValues) => {
+    onSubmit: (values: EventFormValues) => {
       onEventSubmit({
-        id: "",
         title: values.title,
-        date: values.date
+        date: new Date(values.date)
       });
 
       onToggleModal();
+      formik.resetForm();
     }
   });
 
-  const className = classnames("absolute bg-black", {
+  // TODO: Decide if EventFormBackground and EventFormWrapper
+  // should they be a component
+  const eventFormBackgroundClassNames = classnames("absolute bg-black", {
     hidden: !show,
     "flex animated fadeIn inset-0": show
   });
 
+  const eventFormWrapperClassNames = classnames(
+    "flex-1 relative bg-white p-4",
+    {
+      "animated slideInUp": show
+    }
+  );
+
   return (
-    <div className={className}>
-      <EventFormWrapper show={show}>
-        <div className="py-1" onClick={onToggleModal}>
-          <p className="font-medium text-right cursor-pointer">Close</p>
-        </div>
+    <div className={eventFormBackgroundClassNames}>
+      <div className={eventFormWrapperClassNames}>
+        <ToolBar>
+          <ToolBarItem onClick={onToggleModal}>Close</ToolBarItem>
+        </ToolBar>
         <form onSubmit={formik.handleSubmit}>
           <Field
             required
             label="Titulo"
-            placeholder="El Cumpleaños de mi Papá"
             id="title"
             name="title"
+            placeholder="El Cumpleaños de mi Papá"
             onChange={formik.handleChange}
             value={formik.values.title}
           />
           <Field
-            id="date"
             label="Fecha"
-            placeholder="10/10/2021"
+            id="date"
             name="date"
             type="date"
             onChange={formik.handleChange}
             value={formik.values.date.toString()}
+            min={formik.initialValues.date.toISOString().split("T")[0]}
           />
           <Submit>Guardar</Submit>
         </form>
-      </EventFormWrapper>
+      </div>
     </div>
   );
 };
