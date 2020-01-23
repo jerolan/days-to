@@ -3,16 +3,17 @@ import React, { useEffect } from "react";
 import DateEvent from "./event";
 
 export enum DateEventReducerActions {
+  SetEvents = "set_events",
   CreateEvent = "create_event",
   DeleteEvent = "delete_event"
 }
 
 type DateEventProviderProps = { children: React.ReactNode };
-type State = { dateEvents: DateEvent[] };
+type State = { loaded: boolean; dateEvents: DateEvent[] };
 type Dispatch = (action: Action) => void;
 type Action = {
   type: DateEventReducerActions;
-  payload: DateEvent;
+  payload: DateEvent | DateEvent[];
 };
 
 const DATE_EVENT_STORE_KEY = "date_event_store_key";
@@ -26,13 +27,20 @@ function dateEventReducer(state: State, action: Action) {
   switch (action.type) {
     case DateEventReducerActions.CreateEvent: {
       let { dateEvents } = state;
-      dateEvents.push(action.payload);
+      let dateEvent = action.payload as DateEvent;
+      dateEvents.push(dateEvent);
       return { ...state, dateEvents };
     }
     case DateEventReducerActions.DeleteEvent: {
       let { dateEvents } = state;
-      dateEvents = dateEvents.filter(de => de.id !== action.payload.id);
+      let dateEvent = action.payload as DateEvent;
+      dateEvents = dateEvents.filter(de => de.id !== dateEvent.id);
       return { ...state, dateEvents };
+    }
+    case DateEventReducerActions.SetEvents: {
+      let dateEvents = action.payload as DateEvent[];
+      dateEvents.forEach(de => (de.date = new Date(de.date)));
+      return { ...state, dateEvents, loaded: true };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -42,14 +50,27 @@ function dateEventReducer(state: State, action: Action) {
 
 function DateEventProvider({ children }: DateEventProviderProps) {
   const [state, dispatch] = React.useReducer(dateEventReducer, {
+    loaded: false,
     dateEvents: []
   });
 
   useEffect(() => {
-    console.log("first");
+    if (!state.loaded) {
+      let cache = localStorage.getItem(DATE_EVENT_STORE_KEY);
+      if (cache) {
+        let dateEvents: DateEvent[] = JSON.parse(cache);
+        dispatch({
+          type: DateEventReducerActions.SetEvents,
+          payload: dateEvents
+        });
+      }
+    }
 
     return () => {
-      console.log("last");
+      localStorage.setItem(
+        DATE_EVENT_STORE_KEY,
+        JSON.stringify(state.dateEvents)
+      );
     };
   });
 
