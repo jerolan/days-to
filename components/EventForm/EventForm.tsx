@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { useFormik } from "formik";
 
-import DateEvent from "../../dateEvents/event";
+import { DateEvent } from "../../context/DateEventsContext";
 import Field from "./Field";
 import Submit from "./Submit";
 import ToolBar, { ToolBarItem } from "../ToolBar";

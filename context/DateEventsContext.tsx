@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import localForage from "localforage";
 
-import DateEvent from "./event";
-import { stat } from "fs";
+export interface DateEvent {
+  id?: string;
+  title: string;
+  date: Date;
+}
 
 export enum DateEventReducerActions {
   SetEvents = "set_events",
@@ -19,6 +22,11 @@ type Action = {
 };
 
 const DATE_EVENT_STORE_KEY = "date_event_store_key";
+
+const initialState: State = {
+  loaded: false,
+  dateEvents: []
+};
 
 const DateEventStateContext = React.createContext<State | undefined>(undefined);
 const DateEventDispatchContext = React.createContext<Dispatch | undefined>(
@@ -51,10 +59,7 @@ function dateEventReducer(state: State, action: Action) {
 }
 
 function DateEventProvider({ children }: DateEventProviderProps) {
-  const [state, dispatch] = React.useReducer(dateEventReducer, {
-    loaded: false,
-    dateEvents: []
-  });
+  const [state, dispatch] = React.useReducer(dateEventReducer, initialState);
 
   useEffect(() => {
     async function hydrate(state: State) {

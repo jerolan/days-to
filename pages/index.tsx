@@ -5,12 +5,12 @@ import MainLayout from "../components/MainLayout";
 import EventList from "../components/EventList";
 import EventForm from "../components/EventForm";
 import ToolBar, { ToolBarItem } from "../components/ToolBar";
-import DateEvent from "../dateEvents/event";
 import {
+  DateEvent,
   DateEventReducerActions,
   useDateEventState,
   useDateEventDispatch
-} from "../dateEvents/DateEventsContext";
+} from "../context/DateEventsContext";
 
 export default function Home() {
   const dateEvents = useDateEventState();

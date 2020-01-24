@@ -1,11 +1,9 @@
-import "animate.css";
-
 import "../styles/index.css";
 
 import React from "react";
 import App from "next/app";
 
-import { DateEventProvider } from "../dateEvents/DateEventsContext";
+import { DateEventProvider } from "../context/DateEventsContext";
 
 export default class MyApp extends App {
   render() {
