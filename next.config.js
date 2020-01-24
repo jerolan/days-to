@@ -5,7 +5,8 @@ const nextConfig = {
   exportTrailingSlash: true,
   exportPathMap: function() {
     return {
-      "/": { page: "/" }
+      "/": { page: "/" },
+      "/events": { page: "/event" }
     };
   }
 };

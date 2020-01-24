@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import classnames from "classnames";
 import { useFormik } from "formik";
 import emoji from "node-emoji";
@@ -6,6 +7,7 @@ import emoji from "node-emoji";
 import { DateEvent } from "../../context/DateEventsContext";
 import Field from "./Field";
 import Submit from "./Submit";
+import Button from "./Button";
 import ToolBar, { ToolBarItem } from "../ToolBar";
 
 type EventFormProps = {
@@ -80,7 +82,27 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             value={formik.values.date.toString()}
             min={formik.initialValues.date.toISOString().split("T")[0]}
           />
-          <Submit>Guardar</Submit>
+          <div className="flex">
+            <div className="mx-1 flex-1	">
+              <Link
+                href={{
+                  pathname: "/event",
+                  query: {
+                    title: formik.values.title,
+                    date: new Date(formik.values.date).toLocaleDateString(),
+                    emoji: emoji.random().emoji
+                  }
+                }}
+              >
+                <a target="_blank">
+                  <Button>Compartir</Button>
+                </a>
+              </Link>
+            </div>
+            <div className="mx-1 flex-1	">
+              <Submit>Guardar</Submit>
+            </div>
+          </div>
         </form>
       </div>
     </div>
