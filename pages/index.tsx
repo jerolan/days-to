@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import uuid from "uuid/v4";
 
 import MainLayout from "../components/MainLayout";
 import EventList from "../components/EventList";
@@ -17,6 +18,7 @@ export default function Home() {
   const [modal, setModal] = useState(false);
 
   function handleEventSubmit(event: DateEvent) {
+    event.id = uuid();
     dateEventsDispatch({
       type: DateEventReducerActions.CreateEvent,
       payload: event
