@@ -1,6 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { useFormik } from "formik";
+import emoji from "node-emoji";
 
 import { DateEvent } from "../../context/DateEventsContext";
 import Field from "./Field";
@@ -30,6 +31,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
     },
     onSubmit: (values: EventFormValues) => {
       onEventSubmit({
+        emoji: emoji.random().emoji,
         title: values.title,
         date: new Date(values.date)
       });

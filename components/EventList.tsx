@@ -12,7 +12,12 @@ const EventList: React.FunctionComponent<EventListProps> = ({ events }) => {
     <>
       {events.map(event => (
         <div className="mb-3">
-          <Event key={event.id} title={event.title} date={event.date} />
+          <Event
+            key={event.id}
+            emoji={event.emoji}
+            title={event.title}
+            date={event.date}
+          />
         </div>
       ))}
     </>

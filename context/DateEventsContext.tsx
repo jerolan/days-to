@@ -4,6 +4,7 @@ import localForage from "localforage";
 export interface DateEvent {
   id?: string;
   title: string;
+  emoji: string;
   date: Date;
 }
 
