@@ -69,8 +69,8 @@ function DateEventProvider({ children }: DateEventProviderProps) {
       }
     }
 
-    async function persist() {
-      await localForage.setItem(
+    function persist() {
+      localForage.setItem(
         DATE_EVENT_STORE_KEY,
         JSON.stringify(state.dateEvents)
       );
