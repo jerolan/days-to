@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import localForage from "localforage";
 
 import DateEvent from "./event";
+import { stat } from "fs";
 
 export enum DateEventReducerActions {
   SetEvents = "set_events",
@@ -56,31 +57,31 @@ function DateEventProvider({ children }: DateEventProviderProps) {
   });
 
   useEffect(() => {
-    async function hydrate() {
-      if (!state.loaded) {
-        let cache = (await localForage.getItem(DATE_EVENT_STORE_KEY)) as string;
-        if (cache) {
-          let dateEvents: DateEvent[] = JSON.parse(cache);
-          dispatch({
-            type: DateEventReducerActions.SetEvents,
-            payload: dateEvents
-          });
-        }
+    async function hydrate(state: State) {
+      if (state.loaded) return;
+      let cache = (await localForage.getItem(DATE_EVENT_STORE_KEY)) as string;
+      if (cache) {
+        let dateEvents: DateEvent[] = JSON.parse(cache);
+        dispatch({
+          type: DateEventReducerActions.SetEvents,
+          payload: dateEvents
+        });
       }
     }
 
-    function persist() {
+    function persist(state: State) {
+      if (!state.loaded) return;
       localForage.setItem(
         DATE_EVENT_STORE_KEY,
         JSON.stringify(state.dateEvents)
       );
     }
 
-    hydrate();
+    hydrate(state);
     return () => {
-      persist();
+      persist(state);
     };
-  });
+  }, [state, dispatch]);
 
   return (
     <DateEventStateContext.Provider value={state}>
