@@ -6,11 +6,20 @@ import App from "next/app";
 import { DateEventProvider } from "../context/DateEventsContext";
 
 export default class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps };
+  }
+
   render() {
-    const { Component, pageProps, router } = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <DateEventProvider>
-        <Component {...pageProps} key={router.route} />
+        <Component {...pageProps} />
       </DateEventProvider>
     );
   }
