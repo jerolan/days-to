@@ -65,22 +65,31 @@ function DateEventProvider({ children }: DateEventProviderProps) {
   useEffect(() => {
     async function hydrate(state: State) {
       if (state.loaded) return;
-      let cache = (await localForage.getItem(DATE_EVENT_STORE_KEY)) as string;
-      if (cache) {
-        let dateEvents: DateEvent[] = JSON.parse(cache);
-        dispatch({
-          type: DateEventReducerActions.SetEvents,
-          payload: dateEvents
-        });
+
+      try {
+        let cache = await localForage.getItem(DATE_EVENT_STORE_KEY);
+        if (cache) {
+          let dateEvents: DateEvent[] = JSON.parse(cache as string);
+          dispatch({
+            type: DateEventReducerActions.SetEvents,
+            payload: dateEvents
+          });
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
 
-    function persist(state: State) {
+    async function persist(state: State) {
       if (!state.loaded) return;
-      localForage.setItem(
-        DATE_EVENT_STORE_KEY,
-        JSON.stringify(state.dateEvents)
-      );
+      try {
+        await localForage.setItem(
+          DATE_EVENT_STORE_KEY,
+          JSON.stringify(state.dateEvents)
+        );
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     hydrate(state);
