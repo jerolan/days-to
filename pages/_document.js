@@ -7,7 +7,7 @@ export default class MyDocument extends Document {
       pageProps = await Document.getInitialProps(ctx);
     }
 
-    return { pageProps };
+    return { ...pageProps };
   }
 
   render() {
