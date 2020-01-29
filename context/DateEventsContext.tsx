@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import localForage from "localforage";
+import * as Sentry from "@sentry/node";
 
 export interface DateEvent {
   id?: string;
@@ -76,7 +77,8 @@ function DateEventProvider({ children }: DateEventProviderProps) {
           });
         }
       } catch (err) {
-        console.error(err);
+        // TODO: Move from context
+        Sentry.captureException(err);
       }
     }
 
@@ -88,7 +90,8 @@ function DateEventProvider({ children }: DateEventProviderProps) {
           JSON.stringify(state.dateEvents)
         );
       } catch (err) {
-        console.error(err);
+        // TODO: Move from context
+        Sentry.captureException(err);
       }
     }
 
