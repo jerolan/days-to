@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import localForage from "localforage";
-import * as Sentry from "@sentry/node";
+
+import notifyError from "../lib/errorNotifyer";
 
 export interface DateEvent {
   id?: string;
@@ -64,11 +64,11 @@ function DateEventProvider({ children }: DateEventProviderProps) {
   const [state, dispatch] = React.useReducer(dateEventReducer, initialState);
 
   useEffect(() => {
-    async function hydrate(state: State) {
+    function hydrate(state: State) {
       if (state.loaded) return;
 
       try {
-        let cache = await localForage.getItem(DATE_EVENT_STORE_KEY);
+        let cache = localStorage.getItem(DATE_EVENT_STORE_KEY);
         if (cache) {
           let dateEvents: DateEvent[] = JSON.parse(cache as string);
           dispatch({
@@ -77,21 +77,19 @@ function DateEventProvider({ children }: DateEventProviderProps) {
           });
         }
       } catch (err) {
-        // TODO: Move from context
-        Sentry.captureException(err);
+        notifyError(err);
       }
     }
 
-    async function persist(state: State) {
+    function persist(state: State) {
       if (!state.loaded) return;
       try {
-        await localForage.setItem(
+        localStorage.setItem(
           DATE_EVENT_STORE_KEY,
           JSON.stringify(state.dateEvents)
         );
       } catch (err) {
-        // TODO: Move from context
-        Sentry.captureException(err);
+        notifyError(err);
       }
     }
 

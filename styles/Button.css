@@ -1,7 +1,0 @@
-.Button {
-  @apply w-full my-4 bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded;
-}
-
-.Button:hover {
-  @apply bg-gray-400;
-}

@@ -1,14 +1,12 @@
+const compose = require("lodash.flowright");
 const withOffline = require("next-offline");
 const withSourceMaps = require("@zeit/next-source-maps");
+const bundleAnalyzer = require("@next/bundle-analyzer");
 
-const dotenv = require('dotenv');
-
-dotenv.config();
+const Environment = require("./config/environment");
 
 const nextConfig = {
-  env: {
-    SENTRY_DNS: process.env.SENTRY_DNS,
-  },
+  env: Environment,
   webpack: (config, options) => {
     // In `pages/_app.js`, Sentry is imported from @sentry/node. While
     // @sentry/browser will run in a Node.js environment, @sentry/node will use
@@ -29,14 +27,6 @@ const nextConfig = {
     }
 
     return config;
-  },
-  target: "serverless",
-  exportTrailingSlash: true,
-  exportPathMap: function() {
-    return {
-      "/": { page: "/" },
-      "/events": { page: "/event" }
-    };
   },
   workboxOpts: {
     runtimeCaching: [
@@ -64,4 +54,14 @@ const nextConfig = {
   }
 };
 
-module.exports = withOffline(withSourceMaps(nextConfig));
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true"
+});
+
+const withNextPlugins = compose(
+  withOffline,
+  withSourceMaps,
+  withBundleAnalyzer
+);
+
+module.exports = withNextPlugins(nextConfig);

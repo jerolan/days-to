@@ -1,13 +1,14 @@
 import React from "react";
 import Error from "next/error";
-import * as Sentry from "@sentry/node";
+
+import notifyError from "../lib/errorNotifyer";
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/zeit/next.js/issues/8592. As a workaround, we pass
     // err via _app.js so it can be captured
-    Sentry.captureException(err);
+    notifyError(err);
   }
 
   return <Error statusCode={statusCode} />;
@@ -32,7 +33,7 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
     }
 
     if (err) {
-      Sentry.captureException(err);
+      notifyError(err);
 
       return errorInitialProps;
     }
@@ -47,7 +48,7 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
     //    Boundary. Read more about what types of exceptions are caught by Error
     //    Boundaries: https://reactjs.org/docs/error-boundaries.html
     if (err) {
-      Sentry.captureException(err);
+      notifyError(err);
 
       return errorInitialProps;
     }
@@ -56,7 +57,7 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
   // If this point is reached, getInitialProps was called without any
   // information about what the error might be. This is unexpected and may
   // indicate a bug introduced in Next.js, so record it in Sentry
-  Sentry.captureException(
+  notifyError(
     new Error(`_error.js getInitialProps missing data at path: ${asPath}`)
   );
 

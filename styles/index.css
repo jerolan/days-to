@@ -1,8 +1,7 @@
+/* purgecss start ignore */
 @import "~animate.css";
+@tailwind  base;
+@tailwind  components;
+/* purgecss end ignore */
 
-@import "./Button.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@tailwind  utilities;

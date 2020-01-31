@@ -1,19 +1,17 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
+import Constants from "../config/constants";
+
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    let pageProps = {};
-    if (Document.getInitialProps) {
-      pageProps = await Document.getInitialProps(ctx);
-    }
-
-    return { ...pageProps };
-  }
-
   render() {
     return (
-      <Html>
+      <Html lang="es">
         <Head>
+          <meta charSet="utf-8" />
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="theme-color" content="#000000" />
+          <link rel="apple-touch-icon" href="" />
           <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
