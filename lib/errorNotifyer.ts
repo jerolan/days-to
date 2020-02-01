@@ -6,4 +6,5 @@ export function initNotifyer() {
 
 export default function notify(err: Error) {
   Sentry.captureException(err);
+  console.error(err)
 }

@@ -66,16 +66,14 @@ function DateEventProvider({ children }: DateEventProviderProps) {
   useEffect(() => {
     function hydrate(state: State) {
       if (state.loaded) return;
-
+      
       try {
-        let cache = localStorage.getItem(DATE_EVENT_STORE_KEY);
-        if (cache) {
-          let dateEvents: DateEvent[] = JSON.parse(cache as string);
-          dispatch({
-            type: DateEventReducerActions.SetEvents,
-            payload: dateEvents
-          });
-        }
+        let cache = localStorage.getItem(DATE_EVENT_STORE_KEY) || "[]";
+        let dateEvents: DateEvent[] = JSON.parse(cache as string);
+        dispatch({
+          type: DateEventReducerActions.SetEvents,
+          payload: dateEvents
+        });
       } catch (err) {
         notifyError(err);
       }
@@ -83,6 +81,7 @@ function DateEventProvider({ children }: DateEventProviderProps) {
 
     function persist(state: State) {
       if (!state.loaded) return;
+
       try {
         localStorage.setItem(
           DATE_EVENT_STORE_KEY,
@@ -94,9 +93,7 @@ function DateEventProvider({ children }: DateEventProviderProps) {
     }
 
     hydrate(state);
-    return () => {
-      persist(state);
-    };
+    persist(state);
   }, [state, dispatch]);
 
   return (
