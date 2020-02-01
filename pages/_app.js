@@ -4,9 +4,9 @@ import React from "react";
 import App from "next/app";
 
 import { DateEventProvider } from "../context/DateEventsContext";
-import { initNotifyer } from "../lib/errorNotifyer";
+import { initNotifier } from "../lib/errorNotifier";
 
-initNotifyer();
+initNotifier();
 
 export default class MyApp extends App {
   render() {

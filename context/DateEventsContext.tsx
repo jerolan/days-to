@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import notifyError from "../lib/errorNotifyer";
+import notifyError from "../lib/errorNotifier";
 
 export interface DateEvent {
   id?: string;

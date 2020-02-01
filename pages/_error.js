@@ -1,7 +1,7 @@
 import React from "react";
 import Error from "next/error";
 
-import notifyError from "../lib/errorNotifyer";
+import notifyError from "../lib/errorNotifier";
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {

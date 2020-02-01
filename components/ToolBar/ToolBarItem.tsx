@@ -10,8 +10,4 @@ export const ToolBarItem: React.FunctionComponent<React.HTMLProps<
   );
 };
 
-const ToolBar: React.FunctionComponent = ({ children }) => {
-  return <div className="py-6">{children}</div>;
-};
-
-export default ToolBar;
+export default ToolBarItem;

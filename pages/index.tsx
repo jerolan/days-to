@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import uuid from "uuid/v4";
 
-import MainLayout from "../components/MainLayout";
+import Layout from "../components/Layout";
 import EventList from "../components/EventList";
 import EventForm from "../components/EventForm";
 import ToolBar, { ToolBarItem } from "../components/ToolBar";
@@ -30,9 +30,9 @@ export default function Home() {
   }
 
   return (
-    <MainLayout>
+    <Layout>
       <ToolBar>
-        <ToolBarItem onClick={handleToggleModal}>Agregar</ToolBarItem>
+        <ToolBarItem onClick={handleToggleModal}>Add</ToolBarItem>
       </ToolBar>
       <EventList events={dateEvents.dateEvents} />
       <EventForm
@@ -40,6 +40,6 @@ export default function Home() {
         onToggleModal={handleToggleModal}
         onEventSubmit={handleEventSubmit}
       />
-    </MainLayout>
+    </Layout>
   );
 }

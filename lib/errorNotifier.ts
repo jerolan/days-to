@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 
-export function initNotifyer() {
+export function initNotifier() {
   Sentry.init({ dsn: process.env.SENTRY_DNS });
 }
 
