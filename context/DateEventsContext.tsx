@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 
-import notifyError from "../lib/errorNotifier";
-
 export interface DateEvent {
   id?: string;
   title: string;
@@ -66,30 +64,22 @@ function DateEventProvider({ children }: DateEventProviderProps) {
   useEffect(() => {
     function hydrate(state: State) {
       if (state.loaded) return;
-      
-      try {
-        let cache = localStorage.getItem(DATE_EVENT_STORE_KEY) || "[]";
-        let dateEvents: DateEvent[] = JSON.parse(cache as string);
-        dispatch({
-          type: DateEventReducerActions.SetEvents,
-          payload: dateEvents
-        });
-      } catch (err) {
-        notifyError(err);
-      }
+
+      let cache = localStorage.getItem(DATE_EVENT_STORE_KEY) || "[]";
+      let dateEvents: DateEvent[] = JSON.parse(cache as string);
+      dispatch({
+        type: DateEventReducerActions.SetEvents,
+        payload: dateEvents
+      });
     }
 
     function persist(state: State) {
       if (!state.loaded) return;
 
-      try {
-        localStorage.setItem(
-          DATE_EVENT_STORE_KEY,
-          JSON.stringify(state.dateEvents)
-        );
-      } catch (err) {
-        notifyError(err);
-      }
+      localStorage.setItem(
+        DATE_EVENT_STORE_KEY,
+        JSON.stringify(state.dateEvents)
+      );
     }
 
     hydrate(state);
